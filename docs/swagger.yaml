@@ -1,0 +1,30 @@
+openapi: 3.0.0
+info:
+  title: Cinema Tickets App
+  description: "An app that allows consumer to purchase cinema tickets"
+  version: 1.0.0
+
+servers:
+  - url: '/api'
+
+paths:
+  /tickets:
+    post:
+      summary: Purchase a number of cinema tickets
+      operationId: usersInRadius
+      x-eov-operation-handler: "tickets.controller"
+      responses:
+        200:
+          description: Successful response
+          
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 500
+        message:
+          type: string
+          example: an unknown error occurred
