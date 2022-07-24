@@ -5,23 +5,67 @@ info:
   version: 1.0.0
 
 servers:
-  - url: '/api'
+  - url: '/api/v1'
 
 paths:
   /tickets:
     post:
       summary: Purchase a number of cinema tickets
-      operationId: usersInRadius
-      x-eov-operation-handler: "tickets.controller"
+      x-eov-operation-id: purchaseTickets
+      x-eov-operation-handler: "TicketsController"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketRequestBody'
       responses:
         200:
           description: Successful response
+          content:
+            application/json:
+              schema: 
+                $ref: '##/components/schemas/TicketSuccessResponse'
+
           
 components:
   schemas:
+    TicketRequestBody:
+      type: object
+      properties:
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              minimum: 0
+              example: 102
+        tickets:
+          type: object
+          properties: 
+            infant:
+              type: integer
+              minimum: 0
+              example: 1
+            child:
+              type: integer
+              minimum: 0
+              example: 1
+            adult:
+              type: integer
+              minimum: 0
+              example: 2
+      required:
+        - account
+        - tickets
+    TicketSuccessResponse:
+      type: object
+
     Error:
       type: object
       properties:
+        success:
+          type: boolean
+          example: true
         status:
           type: integer
           example: 500

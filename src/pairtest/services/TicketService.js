@@ -1,26 +1,76 @@
-import TicketTypeRequest from '../lib/TicketTypeRequest.js';
-import InvalidPurchaseException from '../lib/InvalidPurchaseException.js';
+import TicketPaymentService from '../../thirdparty/paymentgateway/TicketPaymentService.js';
+import SeatReservationService from '../../thirdparty/seatbooking/SeatReservationService.js';
+import TicketRepository from '../repository/TicketRepository.js';
+import InternalPurchaseException from '../models/errors/InternalPurchaseException.js';
+import { MAXIMUM_TICKETS } from '../lib/Constants.js';
+import InvalidPurchaseException from '../models/errors/InvalidPurchaseException.js';
+import logger from '../../logger.js';
+
+const ticketRepository = new TicketRepository();
+const ticketPaymentService = new TicketPaymentService();
+const seatReserationService = new SeatReservationService();
 
 export default class TicketService {
 
+  #calculateTotalTicketAmount(ticketTypeRequests) {
+    return ticketTypeRequests.reduce((acc, ticketReq) => {
+      return acc + ticketReq.getNoOfTickets()
+    }, 0)
+  }
 
   #hasAdultTicket(ticketTypeRequests) {
     return ticketTypeRequests.some(ticketTypeRequest => ticketTypeRequest.getTicketType() === 'ADULT')
   }
 
-  #combinedTicketRequestsValid(ticketTypeRequests) {
-    return this.#hasAdultTicket(ticketTypeRequests)
+  #calculateAmountToPay(ticketTypeRequests) {
+    return ticketTypeRequests.reduce((acc, ticketReq) => {
+      return acc + ticketRepository.getPrice(ticketReq.getTicketType())
+    }, 0)
+  }
+
+  #calculateTotalSeats(ticketTypeRequests) {
+    return ticketTypeRequests.reduce((acc, ticketReq) => {
+      const requiresSeat = ticketReq.getTicketType() === 'INFANT'
+      return requiresSeat === false ? acc + ticketReq.getNoOfTickets() : 0
+    }, 0)
   }
   
   /**
    * Should only have private methods other than the one below.
    */
   purchaseTickets(accountId, ticketTypeRequests) {
-    if (this.#combinedTicketRequestsValid) {
 
-    } else {
-      throw InvalidPurchaseException
+    if (this.#calculateTotalTicketAmount(ticketTypeRequests) > MAXIMUM_TICKETS) {
+      const err = new InvalidPurchaseException(`Cannot purchase more than ${MAXIMUM_TICKETS} tickets total`);
+      logger.error(err);
+      throw err;
     }
-    // throws InvalidPurchaseException
+
+    if (!this.#hasAdultTicket(ticketTypeRequests)) {
+      const err = new InvalidPurchaseException('Ticket purchases require at least 1 adult');
+      logger.error(err);
+      throw err;
+    } 
+
+    try {
+      const totalAmountToPay = this.#calculateAmountToPay(ticketTypeRequests)
+      const totalSeatsToAllocate = this.#calculateTotalSeats(ticketTypeRequests)
+
+      console.log(totalAmountToPay)
+      // could be a promise.all if external api, there for asynchronous
+      ticketPaymentService.makePayment(accountId, totalAmountToPay)
+      seatReserationService.reserveSeat(accountId, totalSeatsToAllocate)
+
+      return {
+        success: true,
+        data: {
+          totalPaid: totalAmountToPay,
+          seatsAllocated: totalSeatsToAllocate
+        }
+      }
+    } catch (err) {
+      logger.error(err)
+      throw new InternalPurchaseException('An internal error occurred when purchasing tickets')
+    }
   }
 }
