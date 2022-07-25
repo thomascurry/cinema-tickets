@@ -1,4 +1,4 @@
-import StatusCodes, { getReasonPhrase } from 'http-status-codes'
+import StatusCodes, { getReasonPhrase } from 'http-status-codes';
 
 export default class InternalPurchaseException extends Error {
     constructor(message) {

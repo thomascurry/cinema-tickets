@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">78.57% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>11/14</span>
+                <span class='fraction'>14/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">78.57% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>11/14</span>
+                <span class='fraction'>14/14</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -101,29 +101,29 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import TicketService from "../services/TicketService.js"
-import AccountService from '../services/AccountService.js';
-import logger from "../../logger.js";
-import TicketTypeRequest from "../lib/TicketTypeRequest.js";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import logger from "../../logger.js";
 import InvalidPurchaseException from "../models/errors/InvalidPurchaseException.js";
+import TicketTypeRequest from "../models/tickets/TicketTypeRequest.js";
+import AccountService from '../services/AccountService.js';
+import TicketService from "../services/TicketService.js";
 &nbsp;
 const ticketService = new TicketService();
 const accountService = new AccountService();
@@ -132,8 +132,8 @@ export const purchaseTickets = (req, res, next) =&gt; {
     const { account, tickets } = req.body
     const accountValid = accountService.isValidAccount(account.id);
 &nbsp;
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (!accountValid) {
-<span class="cstat-no" title="statement not covered" >        return next(new InvalidPurchaseException('Account id is not valid'))</span>
+    if (!accountValid) {
+        return next(new InvalidPurchaseException('Account id is not valid'))
     }
 &nbsp;
     try {
@@ -144,8 +144,8 @@ export const purchaseTickets = (req, res, next) =&gt; {
 &nbsp;
         return res.status(200).json(result)
     } catch (err) {
-<span class="cstat-no" title="statement not covered" >        logger.error(err)</span>
-<span class="cstat-no" title="statement not covered" >        return next(err)</span>
+        logger.error(err)
+        return next(err)
     }
 }</pre></td></tr></table></pre>
 
@@ -154,7 +154,7 @@ export const purchaseTickets = (req, res, next) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-07-25T00:21:05.863Z
+                at 2022-07-25T00:56:01.363Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

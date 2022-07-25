@@ -99,7 +99,7 @@ describe("purchaseTickets", () => {
         const ticketTypeRequests = [new TicketTypeRequest('INFANT', 10), new TicketTypeRequest('CHILD', 20), new TicketTypeRequest('ADULT', 10)]
 
         // CALL
-        expect(() => sut.purchaseTickets(1, ticketTypeRequests)).toThrowError('Cannot purchase more than 20 tickets total');
+        expect(() => sut.purchaseTickets(1, ticketTypeRequests)).toThrowError('Cannot purchase more than 20 tickets at a time');
         
         // EXPECT
         expect(getPriceSpy).not.toHaveBeenCalled();

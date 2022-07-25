@@ -1,6 +1,6 @@
 import express from "express";
+import helmet from 'helmet';
 import openapiValidator from "./bootstrap/OpenApiValidator.js";
-import helmet from 'helmet'
 import errorHandler from "./pairtest/lib/ErrorHandler.js";
 
 const app = express();

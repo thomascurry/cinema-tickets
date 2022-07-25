@@ -11,8 +11,7 @@ export default class TicketRepository {
         if (!Object.keys(this.#prices).includes(ticketType)) {
             throw InternalPurchaseException('Provided ticket type does not have an associated price')
         }
-
-        console.log(this.#prices[ticketType])
+        
         return this.#prices[ticketType]
     }
 }

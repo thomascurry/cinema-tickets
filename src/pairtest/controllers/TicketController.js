@@ -1,8 +1,8 @@
-import TicketService from "../services/TicketService.js"
-import AccountService from '../services/AccountService.js';
 import logger from "../../logger.js";
-import TicketTypeRequest from "../models/tickets/TicketTypeRequest.js";
 import InvalidPurchaseException from "../models/errors/InvalidPurchaseException.js";
+import TicketTypeRequest from "../models/tickets/TicketTypeRequest.js";
+import AccountService from '../services/AccountService.js';
+import TicketService from "../services/TicketService.js";
 
 const ticketService = new TicketService();
 const accountService = new AccountService();

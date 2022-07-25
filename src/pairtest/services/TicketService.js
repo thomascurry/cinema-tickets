@@ -1,10 +1,10 @@
+import logger from '../../logger.js';
 import TicketPaymentService from '../../thirdparty/paymentgateway/TicketPaymentService.js';
 import SeatReservationService from '../../thirdparty/seatbooking/SeatReservationService.js';
-import TicketRepository from '../repository/TicketRepository.js';
-import InternalPurchaseException from '../models/errors/InternalPurchaseException.js';
 import { MAXIMUM_TICKETS } from '../lib/Constants.js';
+import InternalPurchaseException from '../models/errors/InternalPurchaseException.js';
 import InvalidPurchaseException from '../models/errors/InvalidPurchaseException.js';
-import logger from '../../logger.js';
+import TicketRepository from '../repository/TicketRepository.js';
 
 const ticketRepository = new TicketRepository();
 const ticketPaymentService = new TicketPaymentService();
@@ -41,7 +41,7 @@ export default class TicketService {
   purchaseTickets(accountId, ticketTypeRequests) {
 
     if (this.#calculateTotalTicketAmount(ticketTypeRequests) > MAXIMUM_TICKETS) {
-      const err = new InvalidPurchaseException(`Cannot purchase more than ${MAXIMUM_TICKETS} tickets total`);
+      const err = new InvalidPurchaseException(`Cannot purchase more than ${MAXIMUM_TICKETS} tickets at a time`);
       logger.error(err);
       throw err;
     }

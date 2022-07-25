@@ -1,7 +1,7 @@
 import * as OpenApiValidator from "express-openapi-validator";
 import path from "path";
 import { fileURLToPath } from 'url';
-import esmresolver from '../pairtest/lib/EsmResolver.js'
+import esmresolver from '../pairtest/lib/EsmResolver.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
