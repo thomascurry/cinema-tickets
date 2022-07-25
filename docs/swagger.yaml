@@ -12,7 +12,7 @@ paths:
     post:
       summary: Purchase a number of cinema tickets
       x-eov-operation-id: purchaseTickets
-      x-eov-operation-handler: "TicketsController"
+      x-eov-operation-handler: "TicketController"
       requestBody:
         content:
           application/json:
@@ -24,8 +24,19 @@ paths:
           content:
             application/json:
               schema: 
-                $ref: '##/components/schemas/TicketSuccessResponse'
-
+                $ref: '#/components/schemas/TicketSuccessResponse'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           
 components:
   schemas:
@@ -66,9 +77,13 @@ components:
         success:
           type: boolean
           example: true
-        status:
-          type: integer
-          example: 500
-        message:
-          type: string
-          example: an unknown error occurred
+        error: 
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 500
+            message:
+              type: string
+              example: an unknown error occurred
+        

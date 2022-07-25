@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals';
 import TicketRepository from '../../../../src/pairtest/repository/TicketRepository.js';
-import TicketTypeRequest from '../../../../src/pairtest/lib/TicketTypeRequest.js';
+import TicketTypeRequest from '../../../../src/pairtest/models/tickets/TicketTypeRequest.js';
 import TicketPaymentService from '../../../../src/thirdparty/paymentgateway/TicketPaymentService.js';
 import SeatReservationService from '../../../../src/thirdparty/seatbooking/SeatReservationService.js';
 import TicketService from '../../../../src/pairtest/services/TicketService.js';
@@ -45,7 +45,7 @@ describe("purchaseTickets", () => {
         expect(result).toEqual({
             "success": true,
             "data": {
-                "totalPaid": 3,
+                "totalPaid": 5,
                 "seatsAllocated": 4
             }
         });

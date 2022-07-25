@@ -24,7 +24,7 @@ export default class TicketService {
 
   #calculateAmountToPay(ticketTypeRequests) {
     return ticketTypeRequests.reduce((acc, ticketReq) => {
-      return acc + ticketRepository.getPrice(ticketReq.getTicketType())
+      return acc + ticketRepository.getPrice(ticketReq.getTicketType()) * ticketReq.getNoOfTickets()
     }, 0)
   }
 
@@ -56,7 +56,6 @@ export default class TicketService {
       const totalAmountToPay = this.#calculateAmountToPay(ticketTypeRequests)
       const totalSeatsToAllocate = this.#calculateTotalSeats(ticketTypeRequests)
 
-      console.log(totalAmountToPay)
       // could be a promise.all if external api, there for asynchronous
       ticketPaymentService.makePayment(accountId, totalAmountToPay)
       seatReserationService.reserveSeat(accountId, totalSeatsToAllocate)
