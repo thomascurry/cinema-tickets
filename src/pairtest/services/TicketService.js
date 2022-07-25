@@ -60,6 +60,8 @@ export default class TicketService {
       ticketPaymentService.makePayment(accountId, totalAmountToPay)
       seatReserationService.reserveSeat(accountId, totalSeatsToAllocate)
 
+      logger.info(`Comleted payment and seat reservations for id: ${accountId}`)
+
       return {
         success: true,
         data: {
